@@ -1,14 +1,21 @@
+/// <reference path="../typings/angular2/angular2.d.ts" />
+
 import {Component, View} from 'angular2/core';
 
 @Component({
     selector: 'my-app'
 })
 @View({
-    template: `<div>Hello {{ name }}</div>`
+    template: `
+    <ul>
+        <li *ngFor="#name of names">Hello {{name}}</li>
+    </ul>
+    `
 })
 export class AppComponent {
-    name: string;
+    names: Array<string>;
+
     constructor() {
-        this.name = 'Felipe';
+        this.names = ['Ari','Carlos','Felipe','Nate'];
     }
 } //missed this in the tutorial.

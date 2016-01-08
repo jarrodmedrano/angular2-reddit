@@ -1,3 +1,4 @@
+/// <reference path="../typings/angular2/angular2.d.ts" />
 System.register(['angular2/core'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
@@ -18,14 +19,14 @@ System.register(['angular2/core'], function(exports_1) {
         execute: function() {
             AppComponent = (function () {
                 function AppComponent() {
-                    this.name = 'Felipe';
+                    this.names = ['Ari', 'Carlos', 'Felipe', 'Nate'];
                 }
                 AppComponent = __decorate([
                     core_1.Component({
                         selector: 'my-app'
                     }),
                     core_1.View({
-                        template: "<div>Hello {{ name }}</div>"
+                        template: "\n    <ul>\n        <li *ngFor=\"#name of names\">Hello {{name}}</li>\n    </ul>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], AppComponent);
