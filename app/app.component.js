@@ -10,29 +10,31 @@ System.register(['angular2/core'], function(exports_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var AppComponent;
+    var RedditApp;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
-            AppComponent = (function () {
-                function AppComponent() {
-                    this.names = ['Ari', 'Carlos', 'Felipe', 'Nate'];
+            RedditApp = (function () {
+                function RedditApp() {
                 }
-                AppComponent = __decorate([
+                RedditApp.prototype.addArticle = function (title, link) {
+                    console.log("Adding article with title", title.value, "and link", link.value);
+                };
+                RedditApp = __decorate([
                     core_1.Component({
-                        selector: 'my-app'
+                        selector: 'reddit'
                     }),
                     core_1.View({
-                        template: "\n    <ul>\n        <li *ngFor=\"#name of names\">Hello {{name}}</li>\n    </ul>\n    "
+                        template: "\n        <section class=\"new-link\">\n            <div class=\"control-group\">\n                <div><label for=\"title\">Title:</label></div>\n                <div><input name=\"title\" #newtitle></div>\n            </div>\n            <div class=\"control-group\">\n                <div><label for=\"link\">Link:</label></div>\n                <div><input name=\"link\" #newlink></div>\n            </div>\n            <button (click)=\"addArticle(newtitle, newlink)\">Submit Link</button>\n        </section>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
-                ], AppComponent);
-                return AppComponent;
+                ], RedditApp);
+                return RedditApp;
             })();
-            exports_1("AppComponent", AppComponent); //missed this in the tutorial.
+            exports_1("RedditApp", RedditApp);
         }
     }
 });
