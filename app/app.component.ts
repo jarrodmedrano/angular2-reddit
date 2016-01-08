@@ -1,7 +1,14 @@
-import {Component} from 'angular2/core';
+import {Component, View} from 'angular2/core';
 
 @Component({
-    selector: 'my-app',
-    template: '<h1>Angular 2 App</h1>'
+    selector: 'my-app'
 })
-export class AppComponent { } //missed this in the tutorial.
+@View({
+    template: `<div>Hello {{ name }}</div>`
+})
+export class AppComponent {
+    name: string;
+    constructor() {
+        this.name = 'Felipe';
+    }
+} //missed this in the tutorial.
