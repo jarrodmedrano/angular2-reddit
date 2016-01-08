@@ -10,13 +10,36 @@ System.register(['angular2/core'], function(exports_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var RedditApp;
+    var RedditArticle, RedditApp;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
+            RedditArticle = (function () {
+                function RedditArticle() {
+                    this.votes = 10;
+                    this.title = 'Angular 2';
+                    this.link = 'http://angular.io';
+                }
+                RedditArticle.prototype.voteUp = function () {
+                    this.votes += 1;
+                };
+                RedditArticle.prototype.voteDown = function () {
+                    this.votes -= 1;
+                };
+                RedditArticle = __decorate([
+                    core_1.Component({
+                        selector: 'reddit-article'
+                    }),
+                    core_1.View({
+                        template: "\n    <article>\n        <div class=\"votes\">{{votes}}</div>\n        <div class=\"main\">\n            <h2><a href=\"{{ link }}\">{{ title }}</a></h2>\n            <ul>\n                <li><a href (click)=\"voteUp()\">upvote</a></li>\n                <li><a href (click)=\"voteDown()\">downvote</a></li>\n            </ul>\n        </div>\n    </article>"
+                    }), 
+                    __metadata('design:paramtypes', [])
+                ], RedditArticle);
+                return RedditArticle;
+            })();
             RedditApp = (function () {
                 function RedditApp() {
                 }
@@ -28,7 +51,8 @@ System.register(['angular2/core'], function(exports_1) {
                         selector: 'reddit'
                     }),
                     core_1.View({
-                        template: "\n        <section class=\"new-link\">\n            <div class=\"control-group\">\n                <div><label for=\"title\">Title:</label></div>\n                <div><input name=\"title\" #newtitle></div>\n            </div>\n            <div class=\"control-group\">\n                <div><label for=\"link\">Link:</label></div>\n                <div><input name=\"link\" #newlink></div>\n            </div>\n            <button (click)=\"addArticle(newtitle, newlink)\">Submit Link</button>\n        </section>\n    "
+                        directives: [RedditArticle],
+                        template: "\n        <section class=\"new-link\">\n            <div class=\"control-group\">\n                <div><label for=\"title\">Title:</label></div>\n                <div><input name=\"title\" #newtitle></div>\n            </div>\n            <div class=\"control-group\">\n                <div><label for=\"link\">Link:</label></div>\n                <div><input name=\"link\" #newlink></div>\n            </div>\n            <button (click)=\"addArticle(newtitle, newlink)\">Submit Link</button>\n        </section>\n\n        <reddit-article></reddit-article>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], RedditApp);
