@@ -10,31 +10,48 @@ System.register(['angular2/core'], function(exports_1) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
     var core_1;
-    var RedditArticle, RedditApp;
+    var Article, RedditArticle, RedditApp;
     return {
         setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             }],
         execute: function() {
+            Article = (function () {
+                function Article(title, link) {
+                    this.title = title;
+                    this.link = link;
+                    this.votes = 0;
+                }
+                Article.prototype.voteUp = function () {
+                    this.votes += 1;
+                };
+                Article.prototype.voteDown = function () {
+                    this.votes -= 1;
+                };
+                return Article;
+            })();
             RedditArticle = (function () {
                 function RedditArticle() {
+                    this.article = new Article('Angular 2', 'http://angular.io');
                     this.votes = 10;
                     this.title = 'Angular 2';
                     this.link = 'http://angular.io';
                 }
                 RedditArticle.prototype.voteUp = function () {
-                    this.votes += 1;
+                    this.article.voteUp();
+                    return false;
                 };
                 RedditArticle.prototype.voteDown = function () {
-                    this.votes -= 1;
+                    this.article.voteDown();
+                    return false;
                 };
                 RedditArticle = __decorate([
                     core_1.Component({
                         selector: 'reddit-article'
                     }),
                     core_1.View({
-                        template: "\n    <article>\n        <div class=\"votes\">{{votes}}</div>\n        <div class=\"main\">\n            <h2><a href=\"{{ link }}\">{{ title }}</a></h2>\n            <ul>\n                <li><a href (click)=\"voteUp()\">upvote</a></li>\n                <li><a href (click)=\"voteDown()\">downvote</a></li>\n            </ul>\n        </div>\n    </article>"
+                        template: "\n    <article>\n        <div class=\"votes\">{{ article.votes }}</div>\n        <div class=\"main\">\n            <h2><a href=\"{{ article.link }}\">{{ title }}</a></h2>\n            <ul>\n                <li><a href (click)=\"voteUp()\">upvote</a></li>\n                <li><a href (click)=\"voteDown()\">downvote</a></li>\n            </ul>\n        </div>\n    </article>"
                     }), 
                     __metadata('design:paramtypes', [])
                 ], RedditArticle);
