@@ -15,7 +15,6 @@ class Article {
 
     voteUp() {
         this.votes += 1;
-
     }
 
     voteDown() {
@@ -24,7 +23,8 @@ class Article {
 }
 
 @Component({
-    selector: 'reddit-article'
+    selector: 'one-article',
+    properties: ['article: article']
 })
 @View({
     template: `
@@ -40,14 +40,7 @@ class Article {
     </article>`
 })
 class RedditArticle {
-    article: Article;
 
-    constructor() {
-        this.article = new Article('Angular 2', 'http://angular.io' )
-        this.votes = 10;
-        this.title = 'Angular 2';
-        this.link = 'http://angular.io';
-    }
 
     voteUp() {
         this.article.voteUp();
@@ -60,7 +53,7 @@ class RedditArticle {
     }
 }
 @Component({
-    selector: 'reddit'
+    selector: 'reddit',
 })
 @View({
     directives: [RedditArticle],
@@ -77,11 +70,24 @@ class RedditArticle {
             <button (click)="addArticle(newtitle, newlink)">Submit Link</button>
         </section>
 
-        <reddit-article></reddit-article>
+        <one-article *ngFor='#article of articles' [article]="article"></one-article>
     `
 })
 export class RedditApp {
+    articles: Array<Article>;
+
+    constructor() {
+        this.articles = [
+            new Article('Angular 2', 'http://angular.io'),
+            new Article('Fullstack', 'http://angular.io'),
+        ];
+    }
     addArticle(title, link) {
+        this.articles.push(new Article(title.value, link.value))
+        ;
+        title.value = '';
+        link.value = '';
+
         console.log("Adding article with title", title.value, "and link", link.value);
     }
 }

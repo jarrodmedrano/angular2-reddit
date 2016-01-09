@@ -1,10 +1,12 @@
 /// <reference path="../typings/angular2/angular2.d.ts" />
 System.register(['angular2/core'], function(exports_1) {
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
-        var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
-        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
-        else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
-        return c > 3 && r && Object.defineProperty(target, key, r), r;
+        if (typeof Reflect === "object" && typeof Reflect.decorate === "function") return Reflect.decorate(decorators, target, key, desc);
+        switch (arguments.length) {
+            case 2: return decorators.reduceRight(function(o, d) { return (d && d(o)) || o; }, target);
+            case 3: return decorators.reduceRight(function(o, d) { return (d && d(target, key)), void 0; }, void 0);
+            case 4: return decorators.reduceRight(function(o, d) { return (d && d(target, key, o)) || o; }, desc);
+        }
     };
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
@@ -33,10 +35,6 @@ System.register(['angular2/core'], function(exports_1) {
             })();
             RedditArticle = (function () {
                 function RedditArticle() {
-                    this.article = new Article('Angular 2', 'http://angular.io');
-                    this.votes = 10;
-                    this.title = 'Angular 2';
-                    this.link = 'http://angular.io';
                 }
                 RedditArticle.prototype.voteUp = function () {
                     this.article.voteUp();
@@ -48,7 +46,8 @@ System.register(['angular2/core'], function(exports_1) {
                 };
                 RedditArticle = __decorate([
                     core_1.Component({
-                        selector: 'reddit-article'
+                        selector: 'one-article',
+                        properties: ['article: article']
                     }),
                     core_1.View({
                         template: "\n    <article>\n        <div class=\"votes\">{{ article.votes }}</div>\n        <div class=\"main\">\n            <h2><a href=\"{{ article.link }}\">{{ title }}</a></h2>\n            <ul>\n                <li><a href (click)=\"voteUp()\">upvote</a></li>\n                <li><a href (click)=\"voteDown()\">downvote</a></li>\n            </ul>\n        </div>\n    </article>"
@@ -59,17 +58,24 @@ System.register(['angular2/core'], function(exports_1) {
             })();
             RedditApp = (function () {
                 function RedditApp() {
+                    this.articles = [
+                        new Article('Angular 2', 'http://angular.io'),
+                        new Article('Fullstack', 'http://angular.io'),
+                    ];
                 }
                 RedditApp.prototype.addArticle = function (title, link) {
+                    this.articles.push(new Article(title.value, link.value));
+                    title.value = '';
+                    link.value = '';
                     console.log("Adding article with title", title.value, "and link", link.value);
                 };
                 RedditApp = __decorate([
                     core_1.Component({
-                        selector: 'reddit'
+                        selector: 'reddit',
                     }),
                     core_1.View({
                         directives: [RedditArticle],
-                        template: "\n        <section class=\"new-link\">\n            <div class=\"control-group\">\n                <div><label for=\"title\">Title:</label></div>\n                <div><input name=\"title\" #newtitle></div>\n            </div>\n            <div class=\"control-group\">\n                <div><label for=\"link\">Link:</label></div>\n                <div><input name=\"link\" #newlink></div>\n            </div>\n            <button (click)=\"addArticle(newtitle, newlink)\">Submit Link</button>\n        </section>\n\n        <reddit-article></reddit-article>\n    "
+                        template: "\n        <section class=\"new-link\">\n            <div class=\"control-group\">\n                <div><label for=\"title\">Title:</label></div>\n                <div><input name=\"title\" #newtitle></div>\n            </div>\n            <div class=\"control-group\">\n                <div><label for=\"link\">Link:</label></div>\n                <div><input name=\"link\" #newlink></div>\n            </div>\n            <button (click)=\"addArticle(newtitle, newlink)\">Submit Link</button>\n        </section>\n\n        <one-article *ngFor='#article of articles' [article]=\"article\"></one-article>\n    "
                     }), 
                     __metadata('design:paramtypes', [])
                 ], RedditApp);
